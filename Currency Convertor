@@ -1,73 +1,57 @@
 import tkinter as tk
 import requests
-
 common_currencies = ['USD', 'EUR', 'GBP', 'JPY', 'CAD', 'AUD', 'NZD', 'INR', 'CHF']
-
 class CurrencyConverter:
     def __init__(self):
         self.root = tk.Tk()
         self.root.title('Currency Converter')
         self.root.geometry('300x200')
-
         # Dropdown menu for the 'from' currency
         self.from_var = tk.StringVar(self.root)
         self.from_var.set('USD')
         self.from_menu = tk.OptionMenu(self.root, self.from_var, *common_currencies)
         self.from_menu.pack(pady=5)
-
         # Dropdown menu for the 'to' currency
         self.to_var = tk.StringVar(self.root)
         self.to_var.set('INR')
         self.to_menu = tk.OptionMenu(self.root, self.to_var, *common_currencies)
         self.to_menu.pack(pady=5)
-
         # Label and entry for amount
         self.amount_label = tk.Label(self.root, text="Amount:")
         self.amount_label.pack(pady=5)
-
         self.amount_entry = tk.Entry(self.root)
         self.amount_entry.pack(pady=5)
-
         # Convert button
         self.convert_button = tk.Button(self.root, text='Convert', command=self.convert_currency)
         self.convert_button.pack(pady=5)
-
         # Label to display results
         self.result_label = tk.Label(self.root, text=" ")
         self.result_label.pack(pady=5)
-
         self.root.mainloop()
-
     def convert_currency(self):
         from_currency = self.from_var.get()
         to_currency = self.to_var.get()
         amount_str = self.amount_entry.get().strip()
-
         try:
             if not amount_str:
                 raise ValueError("Amount field cannot be empty")
-            
             amount = float(amount_str)
-
             # Fetch the conversion rate
             url = f'https://api.exchangerate-api.com/v4/latest/{from_currency}'
             response = requests.get(url)
             response.raise_for_status()  # Ensure we notice bad responses
             data = response.json()  # Parse JSON response
-            
             rate = data['rates'].get(to_currency, None)
             if rate is None:
                 raise ValueError(f'Exchange rate not available for {to_currency}.')
-
             converted_amount = amount * rate
             self.result_label.config(text=f'{amount} {from_currency} = {converted_amount:.2f} {to_currency}')
-        
         except ValueError as ve:
             self.result_label.config(text=f'ValueError: {ve}')
         except requests.exceptions.RequestException as e:
             self.result_label.config(text=f'Network error: {e}')
         except Exception as e:
             self.result_label.config(text=f'Error occurred: {e}')
-
 if __name__ == '__main__':
     CurrencyConverter()
+
