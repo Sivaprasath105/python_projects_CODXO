@@ -1,0 +1,65 @@
+import logo_1
+print(logo_1.logo)
+def difficulty(level_selected):
+    if choice==1:
+        return 10
+    elif choice==2:
+        return 5
+    elif choice==3:
+        return 3
+    else:
+        print("You have entered the invalid choice")
+print("***Choose the difficulty you want to play*** \n1.Beginner(10 Guesses)-Level 1\n2.Intermediate(5 Guesses)-Level 2\n3.Pro(3 Guesses)-Level 3")
+choice=input("Enter the level of difficulty you want to play:")
+if choice.isdigit():
+    choice=int(choice)
+    if (choice>=1 and choice<=3):
+        attempts=difficulty(choice)
+        num=input("Guess the number between 1 to 100:")
+        count=1
+        import random
+        num_1=random.randint(1,100)
+        if num.isdigit():
+            num=int(num)
+            if num>=101:
+                print("Invalid Input :(\n*Choose a number between 1 to 100* \nRestart the game to play again:)")
+            elif num<=0:
+                print("Invalid Input :(\n*Choose a number between 1 to 100* \nRestart the game to play again:)")
+            else:
+                while(num!=num_1):
+                    if(num>num_1):
+                        print("Choose a number lower than",num)
+                        count+=1
+                        if count<=attempts:
+                            print("You have ",attempts-count+1,"guesses remaining")
+                            num=int(input("Guess the number between 1 to 100:"))
+
+                        else:
+                            print("You have failed the game")
+                            break
+                    else:
+                        print("Choose a number higher than ",num)
+                        count+=1
+                        if count<=attempts:
+                            print("You have ",attempts-count+1,"guesses remaining")
+                            num=int(input("Guess the number between 1 to 100:"))
+                        else:
+                            print("You have failed the game")
+                            print("The number is ",num_1)
+                            break
+
+                if num==num_1:
+                    print("Well done!! You have guessed the number correctly")
+                    print("Number of attempts:",count)
+                else:
+                    pass
+                
+        else:
+            print("Invalid Input :(\n*Choose a number between 1 to 100* \nRestart the game to play again:)")
+    else:
+        print("Invalid Input!!\nEnter the correct number for the level of difficulty\nRestart the game to play again")
+else:
+    print("Invalid Input!!\nRestart the game to play again")
+
+
+
