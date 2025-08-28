@@ -11,37 +11,22 @@ class AlarmClock:
         self.root = root
         self.root.title("Alarm Clock")
         self.root.geometry("400x300")
-
-        # Initialize pygame mixer for sound
         pygame.mixer.init()
-
-        # Add background image
-        self.background_image = Image.open("background.jpg")  # Replace with your image path
+        self.background_image = Image.open("background.jpg") 
         self.background_photo = ImageTk.PhotoImage(self.background_image)
         self.background_label = tk.Label(root, image=self.background_photo)
         self.background_label.place(relwidth=1, relheight=1)
-
-        # Add time entry
         self.time_label = tk.Label(root, text="Set Alarm Time (HH:MM:SS):", font=("Arial", 14), bg='light blue')
         self.time_label.pack(pady=10)
-
         self.time_entry = tk.Entry(root, font=("Arial", 14))
         self.time_entry.pack(pady=10)
-
-        # Add set alarm button
         self.set_alarm_button = tk.Button(root, text="Set Alarm", command=self.set_alarm, font=("Arial", 14))
         self.set_alarm_button.pack(pady=10)
-
-        # Add stop alarm button (to stop the sound)
         self.stop_alarm_button = tk.Button(root, text="Stop Alarm", command=self.stop_alarm, font=("Arial", 14))
         self.stop_alarm_button.pack(pady=10)
         self.stop_alarm_button.config(state=tk.DISABLED)
-
-        # Add current time display
         self.current_time_label = tk.Label(root, text="", font=("Arial", 16), bg='light blue')
         self.current_time_label.pack(pady=10)
-
-        # Start updating the current time
         self.update_current_time()
 
     def update_current_time(self):
